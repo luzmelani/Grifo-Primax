@@ -1,0 +1,153 @@
+import java.util.Scanner;
+
+public class GrifoPrimax {
+    Scanner bob = new Scanner(System.in);
+    int opcion;
+    double subtotal, vuelto, resto, igv, total, pago;
+    double cantidad;
+    double precioTotal = 0;
+
+    public void login() {
+        System.out.println(" Bienvenido a Grifo Primax ");
+        System.out.println("__Crear cuenta__ ");
+        System.out.println(" Ingrese su nombre ");
+        String nombre = bob.nextLine();
+        System.out.println(" Ingrese su correo ");
+        String correo = bob.nextLine();
+        System.out.println(" Ingrese su contraseña ");
+        String contraseña = bob.nextLine();
+        System.out.println(nombre + ", Su cuenta se creo exitosamente");
+        System.out.println("__Iniciar sesion__");
+        System.out.println(" Ingrese su correo ");
+        String correoIngresado = bob.nextLine();
+        System.out.println(" Ingrese su contraseña ");
+        String contraseñaIngresada = bob.nextLine();
+        if (correo.equals(correoIngresado) && contraseña.equals(contraseñaIngresada)) {
+            this.menu();
+        } else {
+            System.out.println(" Datos incorrectos ");
+        }
+    }
+
+    public void menu() {
+
+        do {
+            System.out.println(" Grifo Primax ");
+            System.out.println(" 1. Combustible ");
+            System.out.println(" 2. Taller Automotriz ");
+            System.out.println(" 3. Lavado de Autos ");
+            System.out.println(" 4. Snack ");
+            System.out.println(" 0. Salir ");
+            System.out.println("Selecciona una opción: ");
+            opcion = bob.nextInt();
+            switch (opcion) {
+                case 1:
+                    this.combustible();
+                    break;
+                case 2:
+
+                    break;
+                case 3:
+
+                    break;
+                case 4:
+
+                    break;
+                case 0:
+                    System.out.println("Saliendo del programa");
+                    opcion = 0;
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+                    break;
+            }
+        }
+        while (opcion != 0);
+    }
+
+    public void combustible() {
+        System.out.println("Bienvenido a Grifo Primax");
+        double regular = 10.45;
+        double premiun = 13.17;
+        double Diesel = 12.94;
+        System.out.println("Seleccione el tipo de combustible que desea: ");
+        System.out.println("1. Gasolina Regular: 10.45");
+        System.out.println("2. Gasolina Premiun: 13.17");
+        System.out.println("3. Diesel S-50: 12.94");
+        System.out.println("4. Regresar");
+        System.out.println("Elija una opcion");
+        int opcion = bob.nextInt();
+
+        do {
+            switch (opcion) {
+                case 1:
+                    System.out.println("Ingrese la cantidad de galones que desea: ");
+                    cantidad = bob.nextDouble();
+                    precioTotal = cantidad * regular;
+                    break;
+                case 2:
+                    System.out.println("Ingrese la cantidad de galones que desea: ");
+                    cantidad = bob.nextDouble();
+                    precioTotal = cantidad * premiun;
+                    break;
+                case 3:
+                    System.out.println("Ingrese la cantidad de galones que desea: ");
+                    cantidad = bob.nextDouble();
+                    precioTotal = cantidad * Diesel;
+                    break;
+                case 4:
+                    System.out.println("Regresando al menu");
+                    this.menu();
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+            if (precioTotal > 0) {
+                System.out.println("El precio a pagar: $" + precioTotal);
+                bob.nextLine();
+                this.vuelto();
+                this.igv();
+                System.out.println("Gracias por su compra");
+                this.menu();
+            }
+        }
+        while (opcion != 0);
+    }
+
+    public double igv() {
+        igv = precioTotal * 0.18;
+        subtotal = precioTotal - igv;
+        total = subtotal + igv;
+        System.out.println("SUBTOTAL " + subtotal);
+        System.out.println("IGV " + igv);
+        System.out.println("TOTAL A PAGAR " + total);
+        return total;
+    }
+
+    public double vuelto() {
+        System.out.println("Ingrese con cuanto va a pagar:");
+        pago = bob.nextDouble();
+        vuelto = pago - precioTotal;
+        if (vuelto < 0) {
+            System.out.println("Su compra fue cancelada");
+            System.exit(0);
+            resto = bob.nextDouble();
+        }
+         else if (-(vuelto) == resto) {
+            System.out.println("Pago Completo");
+            this.igv();
+        }
+         else if (vuelto > 0) {
+            System.out.println("Su vuelto es: " + vuelto);
+        }
+         else {
+            System.out.println("Pago completo");
+        }
+        return vuelto;
+    }
+
+    public static void main(String[] args) {
+        GrifoPrimax bob = new GrifoPrimax();
+        bob.login();
+    }
+}
