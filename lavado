@@ -1,0 +1,128 @@
+public void luzLavadoDeAutos(){
+        System.out.println("Bienvenido al Lavado de Autos");
+        int tipoServicio;
+        int tamanoAuto;
+        double precioEstimado;
+        do {
+            System.out.println("|-- Elija el tipo de servicio:");
+            System.out.println("|-- 1. Barato");
+            System.out.println("|-- 2. Intermedio");
+            System.out.println("|-- 3. Caro");
+            System.out.println("|-- 0. Regresar");
+            System.out.println("|-- Ingrese una Opcion:");
+            tipoServicio = gabriel.nextInt();
+            gabriel.nextLine();
+
+            switch (tipoServicio) {
+                case 1:
+                    do {
+                        System.out.println("|-- Elija el tamaño del auto:");
+                        System.out.println("|-- 1. Pequeño (Hatchbacks, sedanes compactos)");
+                        System.out.println("|-- 2. Intermedio (Sedanes medianos, SUV compactos)");
+                        System.out.println("|-- 3. Grande (SUV grandes, camionetas)");
+                        System.out.println("|-- 0. Regresar");
+                        System.out.println("|-- Ingrese una Opcion:");
+                        tamanoAuto = gabriel.nextInt();
+                        gabriel.nextLine();
+                        switch (tamanoAuto) {
+                            case 1:
+                                precioEstimado = 20;
+                                menuDeCargaLavadoLuz();
+                                luzFinilisacionVenta(precioEstimado);
+                                break;
+                            case 2:
+                                precioEstimado = 30;
+                                menuDeCargaLavadoLuz();
+                                luzFinilisacionVenta(precioEstimado);
+                                break;
+                            case 3:
+                                precioEstimado = 40;
+                                menuDeCargaLavadoLuz();
+                                luzFinilisacionVenta(precioEstimado);
+                                break;
+                            case 0:
+                                System.out.println("Regresando 🤞");
+
+                                break;
+                            default:
+                                System.out.println("Opcion no valida 💀");
+                        }
+                    } while (tamanoAuto != 0);
+                    break;
+                case 2:
+                    do {
+                        System.out.println("|-- Elija el tamaño del auto:");
+                        System.out.println("|-- 1. Pequeño (Hatchbacks, sedanes compactos)");
+                        System.out.println("|-- 2. Intermedio (Sedanes medianos, SUV compactos)");
+                        System.out.println("|-- 3. Grande (SUV grandes, camionetas)");
+                        System.out.println("|-- 0. Regresar");
+                        System.out.println("|-- Ingrese una Opcion:");
+                        tamanoAuto = gabriel.nextInt();
+                        gabriel.nextLine();
+                        switch (tamanoAuto) {
+                            case 1:
+                                precioEstimado = 45;
+                                menuDeCargaLavadoLuz();
+                                luzFinilisacionVenta(precioEstimado);
+                                break;
+                            case 2:
+                                precioEstimado = 55;
+                                menuDeCargaLavadoLuz();
+                                luzFinilisacionVenta(precioEstimado);
+                                break;
+                            case 3:
+                                precioEstimado = 65;
+                                menuDeCargaLavadoLuz();
+                                luzFinilisacionVenta(precioEstimado);
+                                break;
+                            case 0:
+                                System.out.println("Regresando 🤞");
+                                break;
+                            default:
+                                System.out.println("Opcion no valida 💀");
+                        }
+                    } while (tamanoAuto != 0);
+                    System.out.println();
+                    break;
+                case 3:
+                    do {
+                        System.out.println("|-- Elija el tamaño del auto:");
+                        System.out.println("|-- 1. Pequeño (Hatchbacks, sedanes compactos)");
+                        System.out.println("|-- 2. Intermedio (Sedanes medianos, SUV compactos)");
+                        System.out.println("|-- 3. Grande (SUV grandes, camionetas)");
+                        System.out.println("|-- 0. Regresar");
+                        System.out.println("|-- Ingrese una Opcion:");
+                        tamanoAuto = gabriel.nextInt();
+                        gabriel.nextLine();
+                        switch (tamanoAuto) {
+                            case 1:
+                                precioEstimado = 80;
+                                menuDeCargaLavadoLuz();
+                                luzFinilisacionVenta(precioEstimado);
+                                break;
+                            case 2:
+                                precioEstimado = 110;
+                                menuDeCargaLavadoLuz();
+                                luzFinilisacionVenta(precioEstimado);
+                                break;
+                            case 3:
+                                precioEstimado = 150;
+                                menuDeCargaLavadoLuz();
+                                luzFinilisacionVenta(precioEstimado);
+                                break;
+                            case 0:
+                                System.out.println("Regresando 🤞");
+                                break;
+                            default:
+                                System.out.println("Opcion no valida 💀");
+                        }
+                    } while (tamanoAuto != 0);
+                    break;
+                case 0:
+                    System.out.println("Estas Regresando 🥲");
+                    break;
+                default:
+                    System.out.println("Opcion no valida 💀");
+            }
+        } while (tipoServicio != 0);
+    }
