@@ -17,9 +17,9 @@ public void luzLavadoDeAutos(){
                 case 1:
                     do {
                         System.out.println("|-- Elija el tamaño del auto:");
-                        System.out.println("|-- 1. Pequeño (Hatchbacks, sedanes compactos)");
-                        System.out.println("|-- 2. Intermedio (Sedanes medianos, SUV compactos)");
-                        System.out.println("|-- 3. Grande (SUV grandes, camionetas)");
+                        System.out.println("|-- 1. Pequeño (Hatchbacks, sedanes compactos) 20$");
+                        System.out.println("|-- 2. Intermedio (Sedanes medianos, SUV compactos) 30$");
+                        System.out.println("|-- 3. Grande (SUV grandes, camionetas) 40$");
                         System.out.println("|-- 0. Regresar");
                         System.out.println("|-- Ingrese una Opcion:");
                         tamanoAuto = gabriel.nextInt();
@@ -52,9 +52,9 @@ public void luzLavadoDeAutos(){
                 case 2:
                     do {
                         System.out.println("|-- Elija el tamaño del auto:");
-                        System.out.println("|-- 1. Pequeño (Hatchbacks, sedanes compactos)");
-                        System.out.println("|-- 2. Intermedio (Sedanes medianos, SUV compactos)");
-                        System.out.println("|-- 3. Grande (SUV grandes, camionetas)");
+                        System.out.println("|-- 1. Pequeño (Hatchbacks, sedanes compactos) 45$");
+                        System.out.println("|-- 2. Intermedio (Sedanes medianos, SUV compactos) 55$");
+                        System.out.println("|-- 3. Grande (SUV grandes, camionetas) 65$");
                         System.out.println("|-- 0. Regresar");
                         System.out.println("|-- Ingrese una Opcion:");
                         tamanoAuto = gabriel.nextInt();
@@ -87,9 +87,9 @@ public void luzLavadoDeAutos(){
                 case 3:
                     do {
                         System.out.println("|-- Elija el tamaño del auto:");
-                        System.out.println("|-- 1. Pequeño (Hatchbacks, sedanes compactos)");
-                        System.out.println("|-- 2. Intermedio (Sedanes medianos, SUV compactos)");
-                        System.out.println("|-- 3. Grande (SUV grandes, camionetas)");
+                        System.out.println("|-- 1. Pequeño (Hatchbacks, sedanes compactos) 80$");
+                        System.out.println("|-- 2. Intermedio (Sedanes medianos, SUV compactos) 110$");
+                        System.out.println("|-- 3. Grande (SUV grandes, camionetas) 150$");
                         System.out.println("|-- 0. Regresar");
                         System.out.println("|-- Ingrese una Opcion:");
                         tamanoAuto = gabriel.nextInt();
