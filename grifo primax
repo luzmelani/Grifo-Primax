@@ -1,311 +1,818 @@
-    Scanner gabriel = new Scanner(System.in);
-    double subtotal, vuelto, igv, total, pago;
-    double cantidad;
-    double precioTotal = 0;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
-    String nombreUsuario = "luzMelani";
-    String correo = "omar@gmail.com";
-    String contrasena = "root";
+public class MULTISERVICIOSPRIMAX {
+    ArrayList<String> primaxcombustible = new ArrayList<>();
+    ArrayList<String> primaxautomotriz = new ArrayList<>();
+    ArrayList<String> primaxautolavado = new ArrayList<>();
+    ArrayList<String> primaxsnacks = new ArrayList<>();
 
-    public void igv() {
-        igv = precioTotal * 0.18;
-        subtotal = precioTotal - igv;
-        total = subtotal + igv;
-        System.out.println("SUBTOTAL " + subtotal);
-        System.out.println("IGV " + igv);
-        System.out.println("TOTAL A PAGAR " + total);
-    }
-    public void funcionVuelto() {
-        System.out.println("Ingrese con cuanto va a pagar:");
-        pago = gabriel.nextDouble();
-        vuelto = pago - precioTotal;
-        if (vuelto <= 0) {
-            System.out.println("Su compra fue cancelada >:v");
-            System.exit(0);
-        } else if (vuelto == precioTotal) {
-            System.out.println("Pago completo gracias por su compra :3");
-            igv();
-        } else if (vuelto > 0) {
-            System.out.println("Su vuelto es: " + vuelto +" Gracias por su compra :3");
+    ArrayList<Double> carrito_combustible = new ArrayList<>();
+    ArrayList<Double> primaxgastoscombustible = new ArrayList<>();
+    ArrayList<Double> primaxgastosautomotriz = new ArrayList<>();
+    ArrayList<Double> primaxgastosautolavado = new ArrayList<>();
+    ArrayList<Double> primaxgastossnacks = new ArrayList<>();
+    ArrayList<Double> subtotal_combustible = new ArrayList<>();
+
+
+    Scanner bob = new Scanner(System.in);
+    Double[] precio = {10.45, 13.17, 12.94};
+    double totalpagar, igv,totalgeneral;
+    double precioTotal = 0,cantidad;
+    int opcion;
+
+    public void LOGIN() {
+        System.out.println("----------------------------------------");
+        System.out.println("BIENVENIDO A MULTISERVICIOS PRIMAX");
+        System.out.println("----------------------------------------");
+        System.out.println("----CREAR CUENTA----");
+        System.out.println("INGRESE SU NOMBRE");
+        String nombre = bob.nextLine();
+        System.out.println("INGRESE SU CORREO");
+        String correo = bob.nextLine();
+        System.out.println("INGRESE UNA CONTRASEÑA");
+        String contraseña = bob.nextLine();
+        System.out.println("SR./SRA." + nombre + ", SU CUENTA SE CREO EXITOSAMENTE");
+        System.out.println("----------------------------------------");
+        System.out.println("----INICIAR SESION----");
+        System.out.println("INGRESE SU CORREO");
+        String correoIngresado = bob.nextLine();
+        System.out.println(" Ingrese su contraseña ");
+        String contraseñaIngresada = bob.nextLine();
+        if (correo.equals(correoIngresado) && contraseña.equals(contraseñaIngresada)) {
+            System.out.println("----------------------------------------");
+            this.MENUPRINCIPAL();
+        } else {
+            System.out.println("DATOS INCORRECTOS");
         }
     }
-    public void omarVentaCombustible(){
+    public void MENUPRINCIPAL() {
         int opcion;
         do {
-            System.out.println("|== Bienvenido a Grifo Primax    ==================|");
-            System.out.println("|== Seleccione el tipo de combustible que desea   =|");
-            System.out.println("|== 1. Gasolina Regular: 10.45   ==================|");
-            System.out.println("|== 2. Gasolina Premiun: 13.17   ==================|");
-            System.out.println("|== 3. Diesel S-50: 12.94        ==================|");
-            System.out.println("|== 4. Regresar                  ==================|");
-            System.out.println("|== Elija una opcion:");
-            opcion = gabriel.nextInt();
+            System.out.println("----MULTISERVICIOS PRIMAX----");
+            System.out.println("1. VENTA DE COMBUSTIBLE");
+            System.out.println("2. TALLER AUTOMOTRIZ");
+            System.out.println("3. LAVADO DE AUTOS");
+            System.out.println("4. SNACKS");
+            System.out.println("5. PREVISUALIZAR SUS COMPRAS");
+            System.out.println("6. FINALIZAR COMPRA");
+            System.out.println("0. SALIR");
+            System.out.println("SELECCIONE UNA OPCION: ");
+            opcion = bob.nextInt();
+            System.out.println("----------------------------------------");
+            bob.nextLine();
             switch (opcion) {
+                case 0:
+                    System.out.println("USTED ESTA SALIENDO DEL PROGRAMA.");
+                    System.exit(0);
+                    break;
                 case 1:
-                    System.out.println("|== Ingrese la cantidad de galones que desea: ");
-                    cantidad = gabriel.nextDouble();
-                    precioTotal = cantidad * 10.45;
+                    VENTADECOMBUSTIBLE();
                     break;
                 case 2:
-                    System.out.println("|== Ingrese la cantidad de galones que desea: ");
-                    cantidad = gabriel.nextDouble();
-                    precioTotal = cantidad * 13.17;
+                    TALLERAUTOMOTRIZ();
                     break;
                 case 3:
-                    System.out.println("|== Ingrese la cantidad de galones que desea: ");
-                    cantidad = gabriel.nextDouble();
-                    precioTotal = cantidad * 12.94;
+                    LAVADODEAUTOS();
                     break;
-                case 0:
-                    System.out.println("|== Regresando al menu");
-                    MenuGeneral();
+                case 4:
+                    SNACKS();
                     break;
+                case 5:
+                    PREVIEW();
+                case 6:
+                    finVenta();
                 default:
-                    System.out.println("|== Opción no válida.");
+                    System.out.println("¡OPCION NO VALIDA!");
             }
-            if (precioTotal > 0) {
-                System.out.println("|== El precio a pagar: $" + precioTotal);
-                gabriel.nextLine();
-                funcionVuelto();
-                igv();
-                System.out.println("|== Gracias por su compra");
-                MenuGeneral();
-            }
-        }while (opcion != 0);
+        }
+        while (opcion != 0);
     }
-    public void gabrielTallerAutomotriz(){
-        int opcion;
+    public void borrarloquetenganestosAllLists() {
+        primaxcombustible.clear();
+        primaxautomotriz.clear();
+        primaxautolavado.clear();
+        primaxsnacks.clear();
+
+        primaxgastoscombustible.clear();
+        primaxgastosautomotriz.clear();
+        primaxgastosautolavado.clear();
+        primaxgastossnacks.clear();
+    }
+    public void finVenta() {
+        System.out.println("Usted deve pagar un total general de: " + Sumatorias());
+        int omarr;
         do {
-            System.out.println("Bienvenido al taller de Grifo Primax");
-            System.out.println("Menu principal Taller:");
-            System.out.println("Tenemos estas opciones:");
-            System.out.println("Opcion 1: Cambio de aceite");
-            System.out.println("Opcion 2: limpieza Veicular");
-            System.out.println("Opcion 0: salir del taller");
-            opcion = gabriel.nextInt();
-            gabriel.nextLine();
-            switch (opcion) {
+            System.out.println("Metodos de Pago: ");
+            System.out.println("1. Pago en Efectivo");
+            System.out.println("2. Pago en Yape");
+            System.out.println("3. Pago en Tarjeta");
+            System.out.println("0. Regresar");
+            System.out.println("Ingrese una opcion: ");
+            omarr = bob.nextInt();
+            bob.nextLine();
+            switch (omarr) {
                 case 1:
-                    System.out.println("CAMBIO DE ACIETE");
-                    System.out.println("Precio: $ 149.90");
-                    double cambiodeaceite = 149.90;
-                    double igv = cambiodeaceite * 0.18;
-                    double subtotal;
-                    igv = (cambiodeaceite) * 0.18;
-                    subtotal = (cambiodeaceite) - igv;
-                    cambiodeaceite = subtotal + igv;
-
-                    System.out.println("cambio de aceite: ");
-                    System.out.println("Ud debe pagara $149.90");
-                    double pago = gabriel.nextInt();
-                    if (pago >= 149.90) {
-                        if (pago > 149.90) {
-                            double vuelto = pago - 149.90;
-                            System.out.println("su vuelto es: " + vuelto);
-                            System.out.println("*************");
-                            System.out.println("Subtotal: " + subtotal);
-                            System.out.println("igv(18%): " + igv);
-                            System.out.println("TOTAL PAGAR: " + cambiodeaceite);
-                            System.out.println("*************");
-                        }
-                        System.out.println("Gracias por pagar ahora empazamos a cambiar el aceite....");
-                        gabriel.nextLine();
-                        System.out.println("Espere por favor.....");
-                        for (int i = 1; i <= 45; i++) {
-                            System.out.println("minuto " + i);
-                        }
-                        System.out.println("Gracias por esperar hemos acabado");
+                    System.out.println("Ingrese la cantidad a pagar: ");
+                    double loquedio = bob.nextDouble();
+                    bob.nextLine();
+                    while (loquedio < Sumatorias()) {
+                        double  la= Sumatorias() - loquedio;
+                        System.out.println("Te falta: " + la);
+                        System.out.println("Ingresa la cantidad faltante: ");
+                        double lar = bob.nextDouble();
+                        loquedio += la;
                     }
+                    System.out.println("Gracias por su compra");
+                    BOLETADEVENTA();
+
+                    break;
                 case 2:
-                    System.out.println("LIMPIEZA VEHICULAR");
-                    System.out.println("Precio: 39.90");
-                    double limpiezavehicular = 39.90;
-                    double subtotaldelimpieza;
-                    igv = limpiezavehicular;
-                    igv = (limpiezavehicular * 0.18);
-                    subtotaldelimpieza = (limpiezavehicular) - igv;
-                    limpiezavehicular = subtotaldelimpieza + igv;
+                    System.out.println("Ingrese el numero de Celular que yapeara: ");
+                    String celular = bob.nextLine();
 
-                    System.out.println("limpieza vehicular ");
-                    System.out.println("Ud debe pagara $39.90");
-                    System.out.print("Ingrese el dinero:");
-                    double pagodelimpieza = gabriel.nextInt();
-                    if (pagodelimpieza >= 39.90) {
+                    int numeroDigitoscelular = celular.length();
 
-                        if (pagodelimpieza > 39.90) {
-                            double vuelto = pagodelimpieza - 39.90;
-                            System.out.println("su vuelto es: " + vuelto);
-                            System.out.println("*************");
-                            System.out.println("Subtotal: " + subtotaldelimpieza);
-                            System.out.println("igv(18%): " + igv);
-                            System.out.println("TOTAL PAGAR: " + limpiezavehicular);
-                            System.out.println("*************");
-                        }
-                        System.out.println("Gracias por pagar ahora empazamos a cambiar el aceite....");
-                        gabriel.nextLine();
-                        System.out.println("Espere por favor.....");
-                        for (int i = 1; i <= 25; i++) {
-                            System.out.println("minuto " + i);
-                        }
-                        System.out.println("Gracias por esperar hemos acabado");
-                    } else {
-                        System.out.println("Regresa con plata🤦‍♂️🤦‍♂️: ");
-                        System.exit(0);
+                    if (numeroDigitoscelular != 9) {
+                        System.out.println("El numero de celular deve ser 9 dígitos.");
+                        break;
                     }
+                    System.out.println("Ingrese el codigo de aprobacion de 6 digitos: ");
+                    String codigo = bob.nextLine();
+
+                    int numeroDigitoscodigo = codigo.length();
+
+                    if (numeroDigitoscodigo != 6) {
+                        System.out.println("El código de aprobación debe tener exactamente 6 dígitos.");
+                    } else {
+                        System.out.println("Gracias por su compra :D");
+                        BOLETADEVENTA();
+                    }
+
+                    break;
+                case 3:
+                    System.out.println("Ingrese el numero de Tarjeta: ");
+                    String numeroTarjeta = bob.nextLine();
+                    int numeroDigitosnumeroTarjeta = numeroTarjeta.length();
+
+                    if (numeroDigitosnumeroTarjeta != 16) {
+                        System.out.println("Los numeros de tarjeta deven ser 16 digitos...");
+                        break;
+                    }
+                    System.out.println("Ingrese el mes de vencimiento: ");
+                    String mes = bob.nextLine();
+
+                    System.out.println("Ingrese el año de vencimiento: ");
+                    int fechaVencimiento = bob.nextInt();
+                    bob.nextLine();
+                    String numerodecaracteresdelaño = String.valueOf(fechaVencimiento);
+                    int numeroDigitos = numerodecaracteresdelaño.length();
+                    if (numeroDigitos != 4) {
+                        System.out.println("Deven ser 4 los digitos del año...");
+                        break;
+                    }
+
+                    if (fechaVencimiento < 2024){
+                        System.out.println("La tarjeta expiro...");
+                        break;
+                    }
+                    if (fechaVencimiento >= 2024){
+                        System.out.println("La tarjeta aun no expiro continue 🙃");
+                    }
+
+                    System.out.println("Ingrese el CVV de la tarjeta :");
+                    String cvv = bob.nextLine();
+                    int numeroDigitosnumerocvv = cvv.length();
+                    if (numeroDigitosnumerocvv != 3){
+                        System.out.println("Deven ser 3 los digitos del CVV");
+                        break;
+                    }
+
+                    System.out.println("Gracias por su compra");
+                    BOLETADEVENTA();
+                    break;
                 case 0:
                     System.out.println("Estas regresando");
                     break;
                 default:
-                    System.out.println("Opcion fuera de rango");
+                    System.out.println("Fuera de rango");
                     break;
             }
-        }while (opcion !=0);
+
+        } while (omarr != 0);
+
     }
+    public void PREVIEW() {
+        System.out.println("------------------------------------------");
+        int variable;
+        do {
+            System.out.println("OPCIONES DEL PRE-VENTA");
+            System.out.println("1. Consultar estado de compras y ventas");
+            System.out.println("2. Modificaciones de servicios adquiridos");
+            System.out.println("0.REGRESAR");
+            System.out.println("Ingrese una opcion");
+            variable = bob.nextInt();
+            bob.nextLine();
+            switch (variable) {
+                case 1:
+                    preview();
+                    break;
+                case 2:
+                    int opcion;
+                    System.out.println("Para eliminar selcciona la rama del negocio");
+                    System.out.println("1) Negocio de primax combustible");
+                    System.out.println("2) Negocio de primax automotriz");
+                    System.out.println("3) Negocio de primax autolavado");
+                    System.out.println("4) Negocio de primax snacks");
+                    System.out.println("0) REGRESAR");
+                    System.out.println("Ingrese una opcion: ");
+                    opcion = bob.nextInt();
+                    do {
+                        switch (opcion) {
+                            case 1:
+                                int opcion2;
+                                System.out.println("Estas en el Negocio de primax combustible");
+                                System.out.println("1) Eliminar un servicio adquirido");
+                                System.out.println("2) Ver servicios adquiridos");
+                                opcion2 = bob.nextInt();
+                                do {
+
+                                    switch (opcion2) {
+                                        case 1:
+                                            System.out.println("Ingrese el índice del servicio a eliminar");
+                                            int indice2 = bob.nextInt();
+                                            bob.nextLine();
+                                            if (indice2 >= 0 && indice2 < primaxcombustible.size()) {
+                                                primaxcombustible.remove(indice2);
+                                                System.out.println("servicio modificado en el índice " + indice2 + ".");
+                                                PREVIEW();
+
+                                            } else {
+                                                System.out.println("Índice del servicio fuera de rango.");
+                                            }
+                                            if (indice2 >= 0 && indice2 < primaxgastoscombustible.size()) {
+                                                primaxgastoscombustible.remove(indice2);
+                                            }
+                                            break;
+                                        case 2:
+
+                                            System.out.println("Lista de servicios adquiridos:");
+                                            bob.nextLine();
+                                            for (String name : primaxcombustible) {
+                                                System.out.println(name);
+                                            }
+                                            System.out.println("-------------------------------------------------------------");
+                                            break;
+                                        case 0:
+                                            System.out.println("Estas regresando");
+                                            break;
+                                        default:
+                                            System.out.println("Opcion no valida");
+                                            break;
+                                    }
+                                } while (opcion2 != 0);
+                                break;
+                            case 2:
+                                int opcion3;
+                                System.out.println("Estas en el Negocio de primax automotriz");
+                                System.out.println("1) Eliminar un servicio adquirido");
+                                System.out.println("2) Ver servicios adquiridos");
+                                opcion3 = bob.nextInt();
+                                do {
+                                    switch (opcion3) {
+                                        case 1:
+                                            System.out.println("Ingrese el índice del servicio a eliminar");
+                                            int indice3 = bob.nextInt();
+                                            bob.nextLine();
+                                            if (indice3 >= 0 && indice3 < primaxautomotriz.size()) {
+                                                primaxautomotriz.remove(indice3);
+                                                System.out.println("servicio modificado en el índice " + indice3 + ".");
+                                                PREVIEW();
+                                            } else {
+                                                System.out.println("Índice del servicio fuera de rango.");
+                                            }
+                                            break;
+                                        case 2:
+                                            System.out.println("Lista de servicios adquiridos:");
+                                            bob.nextLine();
+                                            for (String name : primaxautomotriz) {
+                                                System.out.println(name);
+                                            }
+                                            System.out.println("-------------------------------------------------------------");
+                                            break;
+                                        case 0:
+                                            System.out.println("Estas regresando");
+                                            break;
+                                        default:
+                                            System.out.println("Fuera de rango");
+                                            break;
+                                    }
+                                } while (opcion3 != 0);
+                                break;
+                            case 3:
+                                int opcion4;
+                                System.out.println("Estas en el Negocio de primax autolavado");
+                                System.out.println("1) Eliminar un servicio adquirido");
+                                System.out.println("2) Ver servicios adquiridos");
+                                opcion4 = bob.nextInt();
+                                do {
+                                    switch (opcion4) {
+                                        case 1:
+                                            System.out.println("Ingrese el índice del servicio a eliminar");
+                                            int indice3 = bob.nextInt();
+                                            bob.nextLine();
+                                            if (indice3 >= 0 && indice3 < primaxautolavado.size()) {
+                                                primaxautolavado.remove(indice3);
+                                                System.out.println("servicio modificado en el índice " + indice3 + ".");
+                                                PREVIEW();
+                                            } else {
+                                                System.out.println("Índice del servicio fuera de rango.");
+                                            }
+                                            break;
+                                        case 2:
+                                            System.out.println("Lista de servicios adquiridos:");
+                                            bob.nextLine();
+                                            for (String name : primaxautolavado) {
+                                                System.out.println(name);
+                                            }
+                                            System.out.println("-------------------------------------------------------------");
+                                            break;
+                                        case 0:
+                                            System.out.println("Estas regresando");
+                                            break;
+                                        default:
+                                            System.out.println("Fuera de rango");
+                                            break;
+                                    }
+                                } while (opcion4 != 0);
+                                break;
+                            case 4:
+                                int opcion5;
+                                System.out.println("Estas en el Negocio de primax snacks");
+                                System.out.println("1) Eliminar un servicio adquirido");
+                                System.out.println("2) Ver servicios adquiridos");
+                                opcion5 = bob.nextInt();
+                                do {
+                                    switch (opcion5) {
+                                        case 1:
+                                            System.out.println("Ingrese el índice del servicio a eliminar");
+                                            int indice4 = bob.nextInt();
+                                            bob.nextLine();
+                                            if (indice4 >= 0 && indice4 < primaxsnacks.size()) {
+                                                primaxsnacks.remove(indice4);
+                                                System.out.println("servicio modificado en el índice " + indice4 + ".");
+                                                PREVIEW();
+                                            } else {
+                                                System.out.println("Índice del servicio fuera de rango.");
+                                            }
+                                            break;
+                                        case 2:
+                                            System.out.println("Lista de servicios adquiridos:");
+                                            bob.nextLine();
+                                            for (String name : primaxsnacks) {
+                                                System.out.println(name);
+                                            }
+                                            System.out.println("-------------------------------------------------------------");
+                                            break;
+                                        case 0:
+                                            System.out.println("Estas regresando");
+                                            break;
+                                        default:
+                                            System.out.println("Fuera de rango");
+                                            break;
+                                    }
+                                } while (opcion5 != 0);
+                                break;
+                            case 0:
+                                System.out.println("Estas regresando");
+                                break;
+                            default:
+                                System.out.println("Fuera de rango");
+                                break;
+                        }
+                    } while (opcion != 0);
+                    break;
+                case 0:
+                    System.out.println("Estas regresando");
+                    MENUPRINCIPAL();
+                    break;
+                default:
+                    System.out.println("Fuera de rango");
+                    break;
+            }
+        } while (variable != 0);
 
 
-    public void luzFinilisacionVenta(double precioEstimado){
-        double igvLuz = precioEstimado * 0.18;
-        double totalPagarLuz = precioEstimado + igvLuz;
+    }
+    public void preview() {
+        System.out.println("|========================================================================|");
+        System.out.println(" Servicios adquiridos de primax combustible");
 
-        System.out.println("||-- Se te esta cobrando asi 👇:");
-        System.out.println("||-- Tu deuda Neta es: " +precioEstimado);
-        System.out.println("||-- Tu deudaIgv es: " +igvLuz);
-        System.out.println("||-- Por tanto tu total a pagar es S/ " + totalPagarLuz);
-        System.out.println("||-- Haora Ingresa tu pago: ");
-        double pagoLuz = gabriel.nextInt();
+        System.out.println("| N°| DESCRIPCION DE PRODUCTOS  ");
+        for (String primaxcombustible : primaxcombustible) {
+            System.out.println(primaxcombustible);
+        }
+        System.out.println("|========================================================================|");
+        System.out.println(" Servicios adquiridos de primax automotriz");
 
-        while (pagoLuz < totalPagarLuz){
-            double faltaPagarLuz = totalPagarLuz - pagoLuz;
-            System.out.println("El pago es incompleto falta: " + faltaPagarLuz);
-            totalPagarLuz -= pagoLuz;
+        System.out.println("| N°| DESCRIPCION DE PRODUCTOS  ");
+        for (String primaxautomotriz : primaxautomotriz) {
+            System.out.println(primaxautomotriz);
+        }
+        System.out.println("|========================================================================|");
+        System.out.println(" Servicios adquiridos de primax autolavado");
 
-            System.out.println("Ingresa el pago faltante: ");
-            pagoLuz = gabriel.nextInt();
-            //Con este if le perdonamos al usuario de equivocacion una vez XD
+        System.out.println("| N°| DESCRIPCION DE PRODUCTOS  ");
+        for (String primaxautolavado : primaxautolavado) {
+            System.out.println(primaxautolavado);
+        }
+        System.out.println("|========================================================================|");
+        System.out.println(" Servicios adquiridos de primax snacks");
 
-            if (pagoLuz == 0) {
-                System.out.println("No te pases de chistoso 🤦‍♀️. Bay");
-                System.exit(0);
+        System.out.println("| N°| DESCRIPCION DE PRODUCTOS  ");
+        for (String primaxsnacks : primaxsnacks) {
+            System.out.println(primaxsnacks);
+        }
+
+        System.out.println("|========================================================================|");
+        System.out.println("GASTOS TOTALES");
+        double igv = 0.18 * Sumatorias();
+        double totalPagar = Sumatorias() + igv;
+
+        System.out.println("| SUB TOTAL     : " + String.format("%.2f", Sumatorias()));
+        System.out.println("| IGV           : " + String.format("%.2f", igv));
+        System.out.println("| TOTAL A PAGAR : " + String.format("%.2f", totalPagar));
+
+        System.out.println("|========================================================================|");
+    }
+    public double Sumatorias() {
+        totalgeneral = 0;
+
+        for (Double precio1 : primaxgastoscombustible) {
+            totalgeneral += precio1;
+        }
+        for (Double precio2 : primaxgastosautomotriz) {
+            totalgeneral += precio2;
+        }
+        for (Double precio3 : primaxgastosautolavado) {
+            totalgeneral += precio3;
+        }
+        for (Double precio4 : primaxgastossnacks) {
+            totalgeneral += precio4;
+        }
+
+        return totalgeneral;
+
+//        double totalCombustible = 0;
+//        double totalAutomotriz = 0;
+//        double totalAutolavado = 0;
+//        double totalSnacks = 0;
+//
+//        double totalGeneral = totalCombustible + totalAutomotriz + totalAutolavado + totalSnacks;
+//        System.out.println("Total general: " + totalGeneral);
+//
+//        return totalGeneral;
+    }
+    public void VENTADECOMBUSTIBLE() {
+        carrito_combustible.add(0.0);
+        do {
+            System.out.println("BIENVENIDO A GRIFO PRIMAX");
+            System.out.println("SELECCIONE EL TIPO DE COMBUSTIBLE QUE DESEA");
+            System.out.println("1. GASOLINA REGULAR: $.10.45");
+            System.out.println("2. GASALINA PREMIUM: $.13.17");
+            System.out.println("3. DIESEL S-50: $.12.94");
+            System.out.println("0. REGRESAR");
+            System.out.println("SELECCIONE UNA OPCION: ");
+            opcion = bob.nextInt();
+            System.out.println("----------------------------------------");
+            switch (opcion) {
+                case 1:
+                    System.out.println("INGRESE LA CANTIDAD DE GALONES QUE DESEA: ");
+                    cantidad = bob.nextDouble();
+                    System.out.println("UD.SELECCIONO " + cantidad + " GALONES");
+                    precioTotal = cantidad * 10.45;
+                    primaxcombustible.add("| " + cantidad + "| GASOLINA REGULAR $.10.45");
+                    primaxgastoscombustible.add(precioTotal);
+                    carrito_combustible.set(opcion-1,carrito_combustible.get(opcion-1)+cantidad);
+                    break;
+                case 2:
+                    System.out.println("INGRESE LA CANTIDAD DE GALONES QUE DESEA: ");
+                    cantidad = bob.nextDouble();
+                    precioTotal = cantidad * 13.17;
+
+                    primaxcombustible.add("| " + cantidad + "| GASOLINA PREMIUM $.13.17");
+                    primaxgastoscombustible.add(precioTotal);
+                    break;
+                case 3:
+                    System.out.println("INGRESE LA CANTIDAD DE GALONES QUE DESEA: ");
+                    cantidad = bob.nextDouble();
+                    precioTotal = cantidad * 12.94;
+
+                    primaxcombustible.add("| " + cantidad + "| DIESEL S-50 $.12.94");
+                    primaxgastoscombustible.add(precioTotal);
+                    break;
+                case 0:
+                    System.out.println("USTED ESTA REGRESANDO AL MENU");
+
+                    break;
+                default:
+                    System.out.println("¡OPCION NO VALIDA!");
+            }
+            bob.nextLine();
+
+
+        }
+        while (opcion != 0);
+    }
+    public void TALLERAUTOMOTRIZ() {
+        int opcion;
+        do {
+            System.out.println("BIENVENIDO AL TALLER DE MULTISERVICIOS PRIMAX");
+            System.out.println("TENEMOS LOS SIGUIENTES SERVICIOS:");
+            System.out.println("1: CAMBIO DE ACIETE");
+            System.out.println("2: MANTENIMIENTO FILTROS");
+            System.out.println("0: SALIR DEL TALLER");
+            System.out.println("ELIJA ENTRE ESTAS OPCIONES:");
+            opcion = bob.nextInt();
+            System.out.println("----------------------------------------");
+            switch (opcion) {
+                case 1:
+                    CAMBIODEACEITE();
+                    break;
+                case 2:
+                    LIMPIEZADEFILTROSVEHICULAR();
+                    break;
+                case 0:
+                    System.out.println("GRACIAS POR SU VISITA.");
+                    MENUPRINCIPAL();
+                    break;
+                default:
+                    System.out.println("¡OPCION NO VALIDA!");
             }
         }
-
-        if (pagoLuz >= totalPagarLuz) {
-            double vueltoLuz = pagoLuz - totalPagarLuz;
-            System.out.println("Tu vuelto es de: " + vueltoLuz);
-            System.out.println("Gracias por adquirir nuestro servicio 🥳");
-            MenuGeneral();
-        }
-
+        while (opcion != 0);
     }
-    public void menuDeCargaLavadoLuz() {
-        for (int i = 0; i < 2; i++) {
-            System.out.println(i + " segundos...");
+    public void CAMBIODEACEITE() {
+        System.out.println("----CAMBIOS DE ACEITES PRIMAX----");
+        System.out.println("1: ACEITE PREMIUM: $.249.90");
+        System.out.println("2: ACEITE SINTETICO: $189.90");
+        System.out.println("3: ACEITE CONVENCIONAL: $.149.90");
+        System.out.println("4: ACEITE REGULAR: $.129.90");
+        System.out.println("0: REGRESANDO AL MENU PRINCIPAL");
+        System.out.println("SELECCIONE UNA DE ESTAS OPCIONES");
+        int cambio;
+        cambio = bob.nextInt();
+        System.out.println("----------------------------------------");
+        switch (cambio) {
+            case 1:
+                System.out.println("Ingrese la cantidad");
+                double cantidad11 = bob.nextDouble();
+                precioTotal = 249.90 * cantidad11;
+
+                primaxautomotriz.add("| " + cantidad11 + "|ACEITE PREMIUM $.249.90");
+                primaxgastosautomotriz.add(precioTotal);
+
+                System.out.println("----------------------------------------");
+                System.out.println("GRACIAS POR PAGAR AHORA EMPEZAMOS A CAMBIAR EL ACEITE....");
+                bob.nextLine();
+                System.out.println("ESPERE POR FAVOR.....");
+                System.out.println("----------------------------------------");
+                for (int i = 1; i <= 25; i++) {
+                    System.out.println("MINUTO " + i);
+                }
+                System.out.println("GRACIAS POR ESPERAR, HEMOS TERMINADO");
+                System.out.println("----------------------------------------");
+                TALLERAUTOMOTRIZ();
+                break;
+            case 2:
+                System.out.println("Ingrese la cantidad");
+                double cantidad12 = bob.nextDouble();
+                precioTotal = 189.90 * cantidad12;
+
+                primaxautomotriz.add("| " + cantidad12 + "|ACEITE SINTETICO: $189.90");
+                primaxgastosautomotriz.add(precioTotal);
+
+                System.out.println("----------------------------------------");
+                System.out.println("GRACIAS POR PAGAR AHORA EMPEZAMOS A CAMBIAR EL ACEITE....");
+                bob.nextLine();
+                System.out.println("ESPERE POR FAVOR.....");
+                System.out.println("----------------------------------------");
+                for (int i = 1; i <= 25; i++) {
+                    System.out.println("MINUTO " + i);
+                }
+                System.out.println("GRACIAS POR ESPERAR, HEMOS TERMINADO");
+                System.out.println("----------------------------------------");
+                TALLERAUTOMOTRIZ();
+                break;
+            case 3:
+                System.out.println("Ingrese la cantidad");
+                double cantidad13 = bob.nextDouble();
+                precioTotal = 149.90 * cantidad13;
+
+                primaxautomotriz.add("| " + cantidad13 + "|ACEITE CONVENCIONAL: $.149.90");
+                primaxgastosautomotriz.add(precioTotal);
+
+                System.out.println("----------------------------------------");
+                System.out.println("GRACIAS POR PAGAR AHORA EMPEZAMOS A CAMBIAR EL ACEITE....");
+                bob.nextLine();
+                System.out.println("ESPERE POR FAVOR.....");
+                System.out.println("----------------------------------------");
+                for (int i = 1; i <= 25; i++) {
+                    System.out.println("MINUTO " + i);
+                }
+                System.out.println("GRACIAS POR ESPERAR, HEMOS TERMINADO");
+                System.out.println("----------------------------------------");
+                TALLERAUTOMOTRIZ();
+                break;
+            case 4:
+                System.out.println("Ingrese la cantidad");
+                double cantidad14 = bob.nextDouble();
+                precioTotal = 129.90 * cantidad14;
+                System.out.println("UD. DEBE PAGAR: $249.90");
+
+                primaxautomotriz.add("| " + cantidad14 + "|ACEITE REGULAR: $.129.90");
+                primaxgastosautomotriz.add(precioTotal);
+
+                System.out.println("----------------------------------------");
+                System.out.println("GRACIAS POR PAGAR AHORA EMPEZAMOS A CAMBIAR EL ACEITE....");
+                bob.nextLine();
+                System.out.println("ESPERE POR FAVOR.....");
+                System.out.println("----------------------------------------");
+                for (int i = 1; i <= 25; i++) {
+                    System.out.println("MINUTO " + i);
+                }
+                System.out.println("GRACIAS POR ESPERAR, HEMOS TERMINADO");
+                System.out.println("----------------------------------------");
+                TALLERAUTOMOTRIZ();
+                break;
+            case 0:
+                System.out.println("USTED ESTA REGRESANDO AL MENU");
+                MENUPRINCIPAL();
+                break;
+            default:
+                System.out.println("¡OPCION NO VALIDA!");
         }
-        System.out.println("Su auto está siendo lavado 💦🚗💦");
-
-
-        for (int i = 0; i < 2; i++) {
-            System.out.println(i + " segundos...");
-        }
-        System.out.println("Su auto está siendo enjabonado 🧼🚗🧼");
-
-
-        for (int i = 0; i < 2; i++) {
-            System.out.println(i + " segundos...");
-        }
-        System.out.println("Su auto está siendo enjuagado 🚿🚗🚿");
-
-
-        for (int i = 0; i < 2; i++) {
-            System.out.println(i + " segundos...");
-        }
-        System.out.println("Su auto está siendo secado con aire 💨🚗💨");
-
-
-        for (int i = 0; i < 6; i++) {
-            System.out.println(i + " segundos...");
-        }
-        System.out.println("Su auto está listo ✨🚗✨");
-
-        System.out.println("Gracias " + nombreUsuario + " por usar nuestro servicio 😊");
-
     }
-    public void luzLavadoDeAutos(){
-        System.out.println("Bienvenido al Lavado de Autos");
-        int tipoServicio;
+    public void LIMPIEZADEFILTROSVEHICULAR() {
+        System.out.println("BIENVENIDO AL CAMBIO DE FILTRO");
+        int servicio;
+        System.out.println("ELIJA EL TIPO DE SERVICIO:");
+        System.out.println("1. BARATO: $.10.90");
+        System.out.println("2. INTERMEDIO: $.14.90");
+        System.out.println("3. CARO: $20.90");
+        System.out.println("0. REGRESAR");
+        System.out.println("INGRESE UNA OPCION:");
+        servicio = bob.nextInt();
+        switch (servicio) {
+            case 1:
+                precioTotal = 10.90;
+
+                primaxautomotriz.add("| 1 |  FILTRO BARATO: $.10.90");
+                primaxgastosautomotriz.add(precioTotal);
+
+
+                System.out.println("----------------------------------------");
+                System.out.println("GRACIAS POR PAGAR AHORA EMPEZAMOS CON EL MANTENIMIENTO DE FILTROS....");
+                bob.nextLine();
+                System.out.println("ESPERE POR FAVOR.....");
+                System.out.println("----------------------------------------");
+                for (int i = 1; i <= 25; i++) {
+                    System.out.println("MINUTO " + i);
+                }
+                System.out.println("GRACIAS POR ESPERAR, HEMOS TERMINADO");
+                System.out.println("----------------------------------------");
+                this.TALLERAUTOMOTRIZ();
+                break;
+            case 2:
+                precioTotal = 14.90;
+
+                primaxautomotriz.add("| 1 | FILTRO INTERMEDIO: $.14.90");
+                primaxgastosautomotriz.add(precioTotal);
+
+
+                System.out.println("----------------------------------------");
+                System.out.println("GRACIAS POR PAGAR AHORA EMPEZAMOS CON EL MANTENIMIENTO DE FILTROS....");
+                bob.nextLine();
+                System.out.println("ESPERE POR FAVOR.....");
+                System.out.println("----------------------------------------");
+                for (int i = 1; i <= 25; i++) {
+                    System.out.println("MINUTO " + i);
+                }
+                System.out.println("GRACIAS POR ESPERAR, HEMOS TERMINADO");
+                System.out.println("----------------------------------------");
+                this.TALLERAUTOMOTRIZ();
+                break;
+            case 3:
+                precioTotal = 20.90;
+
+                primaxautomotriz.add("| 1 | FILTRO CARO: $20.90");
+                primaxgastosautomotriz.add(precioTotal);
+
+
+                System.out.println("----------------------------------------");
+                System.out.println("GRACIAS POR PAGAR AHORA EMPEZAMOS CON EL MANTENIMIENTO DE FILTROS....");
+                bob.nextLine();
+                System.out.println("ESPERE POR FAVOR.....");
+                System.out.println("----------------------------------------");
+                for (int i = 1; i <= 25; i++) {
+                    System.out.println("MINUTO " + i);
+                }
+                System.out.println("GRACIAS POR ESPERAR, HEMOS TERMINADO");
+                System.out.println("----------------------------------------");
+                this.TALLERAUTOMOTRIZ();
+                break;
+            case 0:
+                System.out.println("USTED ESTA REGRESANDO AL MENU");
+                MENUPRINCIPAL();
+                break;
+            default:
+                System.out.println("¡OPCION NO VALIDA!");
+        }
+    }
+    public void LAVADODEAUTOS() {
+        System.out.println("BIENVENIDO A AUTO LAVADO PRIMAX");
+        int Servicio;
         int tamanoAuto;
         double precioEstimado;
         do {
-            System.out.println("|-- Elija el tipo de servicio:");
-            System.out.println("|-- 1. Barato");
-            System.out.println("|-- 2. Intermedio");
-            System.out.println("|-- 3. Caro");
-            System.out.println("|-- 0. Regresar");
-            System.out.println("|-- Ingrese una Opcion:");
-            tipoServicio = gabriel.nextInt();
-            gabriel.nextLine();
-
-            switch (tipoServicio) {
+            System.out.println("ELIJA EL TIPO DE LAVADO: ");
+            System.out.println("1. PEQUEÑO");
+            System.out.println("2. INTERMEDIO");
+            System.out.println("3. GRANDE");
+            System.out.println("0. REGRESAR");
+            System.out.println("MARQUE UNA OPCION: ");
+            Servicio = bob.nextInt();
+            bob.nextLine();
+            switch (Servicio) {
                 case 1:
                     do {
-                        System.out.println("|-- Elija el tamaño del auto:");
-                        System.out.println("|-- 1. Pequeño (Hatchbacks, sedanes compactos)");
-                        System.out.println("|-- 2. Intermedio (Sedanes medianos, SUV compactos)");
-                        System.out.println("|-- 3. Grande (SUV grandes, camionetas)");
-                        System.out.println("|-- 0. Regresar");
-                        System.out.println("|-- Ingrese una Opcion:");
-                        tamanoAuto = gabriel.nextInt();
-                        gabriel.nextLine();
+                        System.out.println("ELIJA EL TAMAÑO DEL AUTO: ");
+                        System.out.println("1. PEQUEÑO (HATCHBACKS, SEDANES COMPACTOS): $.20");
+                        System.out.println("2. INTERMEDIO (SEDANES MEDIANOS, SUV COMPACTOS): $.30");
+                        System.out.println("3. GRANDE (SUV GRANDES, CAMIONETAS): $.40");
+                        System.out.println("0. REGRESAR");
+                        System.out.println("MARQUE UNA OPCION:");
+                        tamanoAuto = bob.nextInt();
+                        bob.nextLine();
                         switch (tamanoAuto) {
                             case 1:
                                 precioEstimado = 20;
                                 menuDeCargaLavadoLuz();
-                                luzFinilisacionVenta(precioEstimado);
+
+                                primaxgastosautolavado.add(precioEstimado);
+                                primaxautolavado.add("| 1 | Tipo de lavado PEQUEÑO para auto PEQUEÑO");
                                 break;
                             case 2:
                                 precioEstimado = 30;
                                 menuDeCargaLavadoLuz();
-                                luzFinilisacionVenta(precioEstimado);
+                                primaxgastosautolavado.add(precioEstimado);
+                                primaxautolavado.add("| 1 | Tipo de lavado PEQUEÑO para auto INTERMEDIO");
                                 break;
                             case 3:
                                 precioEstimado = 40;
                                 menuDeCargaLavadoLuz();
-                                luzFinilisacionVenta(precioEstimado);
+                                primaxgastosautolavado.add(precioEstimado);
+                                primaxautolavado.add("| 1 | Tipo de lavado PEQUEÑO para auto GRANDE");
                                 break;
                             case 0:
-                                System.out.println("Regresando 🤞");
+                                System.out.println("REGRESANDO 🤞");
 
                                 break;
                             default:
-                                System.out.println("Opcion no valida 💀");
+                                System.out.println("OPCION NO VALIDA 💀");
                         }
                     } while (tamanoAuto != 0);
                     break;
                 case 2:
                     do {
-                        System.out.println("|-- Elija el tamaño del auto:");
-                        System.out.println("|-- 1. Pequeño (Hatchbacks, sedanes compactos)");
-                        System.out.println("|-- 2. Intermedio (Sedanes medianos, SUV compactos)");
-                        System.out.println("|-- 3. Grande (SUV grandes, camionetas)");
-                        System.out.println("|-- 0. Regresar");
-                        System.out.println("|-- Ingrese una Opcion:");
-                        tamanoAuto = gabriel.nextInt();
-                        gabriel.nextLine();
+                        System.out.println("ELIJA EL TAMAÑO DEL AUTO: ");
+                        System.out.println("1. PEQUEÑO (HATCHBACKS, SEDANES COMPACTOS): $.20");
+                        System.out.println("2. INTERMEDIO (SEDANES MEDIANOS, SUV COMPACTOS): $.30");
+                        System.out.println("3. GRANDE (SUV GRANDES, CAMIONETAS): $.40");
+                        System.out.println("0. REGRESAR");
+                        System.out.println("MARQUE UNA OPCION:");
+                        tamanoAuto = bob.nextInt();
+                        bob.nextLine();
                         switch (tamanoAuto) {
                             case 1:
                                 precioEstimado = 45;
                                 menuDeCargaLavadoLuz();
-                                luzFinilisacionVenta(precioEstimado);
+                                primaxgastosautolavado.add(precioEstimado);
+                                primaxautolavado.add("| 1 | Tipo de lavado INTERMEDIO para auto PEQUEÑO");
                                 break;
                             case 2:
                                 precioEstimado = 55;
                                 menuDeCargaLavadoLuz();
-                                luzFinilisacionVenta(precioEstimado);
+                                primaxgastosautolavado.add(precioEstimado);
+                                primaxautolavado.add("| 1 | Tipo de lavado INTERMEDIO para auto INTERMEDIO");
                                 break;
                             case 3:
                                 precioEstimado = 65;
                                 menuDeCargaLavadoLuz();
-                                luzFinilisacionVenta(precioEstimado);
+                                primaxgastosautolavado.add(precioEstimado);
+                                primaxautolavado.add("| 1 | Tipo de lavado INTERMEDIO para auto GRANDE");
                                 break;
                             case 0:
                                 System.out.println("Regresando 🤞");
@@ -324,23 +831,26 @@
                         System.out.println("|-- 3. Grande (SUV grandes, camionetas)");
                         System.out.println("|-- 0. Regresar");
                         System.out.println("|-- Ingrese una Opcion:");
-                        tamanoAuto = gabriel.nextInt();
-                        gabriel.nextLine();
+                        tamanoAuto = bob.nextInt();
+                        bob.nextLine();
                         switch (tamanoAuto) {
                             case 1:
                                 precioEstimado = 80;
-                                menuDeCargaLavadoLuz();
-                                luzFinilisacionVenta(precioEstimado);
+                                this.menuDeCargaLavadoLuz();
+                                primaxgastosautolavado.add(precioEstimado);
+                                primaxautolavado.add("| 1 | Tipo de lavado GRANDE para auto Pequeño");
                                 break;
                             case 2:
                                 precioEstimado = 110;
                                 menuDeCargaLavadoLuz();
-                                luzFinilisacionVenta(precioEstimado);
+                                primaxgastosautolavado.add(precioEstimado);
+                                primaxautolavado.add("| 1 | Tipo de lavado GRANDE para auto Intermedio");
                                 break;
                             case 3:
                                 precioEstimado = 150;
                                 menuDeCargaLavadoLuz();
-                                luzFinilisacionVenta(precioEstimado);
+                                primaxgastosautolavado.add(precioEstimado);
+                                primaxautolavado.add("| 1 | Tipo de lavado GRANDE para auto Grande");
                                 break;
                             case 0:
                                 System.out.println("Regresando 🤞");
@@ -356,68 +866,86 @@
                 default:
                     System.out.println("Opcion no valida 💀");
             }
-        } while (tipoServicio != 0);
+        }
+        while (Servicio != 0);
     }
+    public void menuDeCargaLavadoLuz() {
 
-
-    public void vladimirSnack(){
+        for (int i = 0; i < 2; i++) {
+            System.out.println(i + " segundos...");
+        }
+        System.out.println("Su auto está siendo enjabonado 🧼🚗🧼");
+        for (int i = 0; i < 2; i++) {
+            System.out.println(i + " segundos...");
+        }
+        System.out.println("Su auto está siendo enjuagado 🚿🚗🚿");
+        for (int i = 0; i < 2; i++) {
+            System.out.println(i + " segundos...");
+        }
+        System.out.println("Su auto está siendo secado con aire 💨🚗💨");
+        for (int i = 0; i < 6; i++) {
+            System.out.println(i + " segundos...");
+        }
+        System.out.println("Su auto está listo ✨🚗✨");
+        System.out.println("Gracias por usar nuestro servicio 😊");
+        for (int i = 0; i < 2; i++) {
+            System.out.println(i + " segundos...");
+        }
+        System.out.println("Su auto está siendo lavado 💦🚗💦");
+    }
+    public void SNACKS() {
         int vladimir;
-        double subtotal, igv, total_a_pagar = 0;
+        double subtotal;
         do {
-            System.out.println("---BIENVENIDO! Aqui tenemos algunos Snacks populares---");
-            System.out.println("opcion 1: Palomitas de maiz - S/.8.00");
-            System.out.println("opcion 2: Papas fritas - S/.6.00");
-            System.out.println("opcion 3: Barritas de granola - S/.5.00");
-            System.out.println("opcion 4: Chocolate Bom Bom - S/.2.00");
-            System.out.println("opcion 5: Muchas Frutas");
-            System.out.println("opcion 6: Empanada de carne - S/.10.00");
-            System.out.println("opcion 0: Volver al menú principal");
-            System.out.println("Ingrese una opcion:");
-            vladimir = gabriel.nextInt();
+            System.out.println("---BIENVENIDO AL MINIMARKET PRIMAX---");
+            System.out.println("TENEMOS LOS SIGUIENTES PRODUCTOS");
+            System.out.println("1: PALOMITAS DE MAIZ - $.8.00");
+            System.out.println("2: PAPAS FRITAS - $.6.00");
+            System.out.println("3: BARRITAS DE GRANOLA - $.5.00");
+            System.out.println("4: CHOCOLATE BOM BOM - $.2.00");
+            System.out.println("5: ");
+            System.out.println("6: EMPANADAS DE CARNE - $.10.00");
+            System.out.println("0: REGRESANDO AL MENU");
+            System.out.println("INGRESE UNA OPCION: ");
+            vladimir = bob.nextInt();
             switch (vladimir) {
                 case 1:
                     System.out.println("Ingrese la cantidad de palomitas  de maiz a comprar:");
-                    int cantidad1 = gabriel.nextInt();
+                    int cantidad1 = bob.nextInt();
                     double palomitasdemaiz = 8.00;
-                    igv = 0.50;
                     subtotal = palomitasdemaiz * cantidad1;
-                    total_a_pagar = subtotal + igv;
-                    System.out.println("SUBTOTAL " + subtotal);
-                    System.out.println("IGV " + igv);
-                    System.out.println("TOTAL A PAGAR ES S/. " + total_a_pagar);
+
+                    primaxsnacks.add("| " + cantidad1 + " | PALOMITAS DE MAIZ - $.8.00");
+                    primaxgastossnacks.add(subtotal);
                     break;
                 case 2:
                     System.out.println("Ingrese la cantidad de papas fritas comprar:");
-                    int cantidad2 = gabriel.nextInt();
+                    int cantidad2 = bob.nextInt();
                     double papasfritas = 6.00;
-                    igv = 0.50;
                     subtotal = papasfritas * cantidad2;
-                    total_a_pagar = subtotal + igv;
-                    System.out.println("SUBTOTAL " + subtotal);
-                    System.out.println("IGV " + igv);
-                    System.out.println("TOTAL A PAGAR ES S/. " + total_a_pagar);
+
+                    primaxsnacks.add("| " + cantidad2 + " | PAPAS FRITAS - $.6.00");
+                    primaxgastossnacks.add(subtotal);
                     break;
                 case 3:
                     System.out.println("Ingrese la cantidad de Barritas de granola a comprar:");
-                    int cantidad3 = gabriel.nextInt();
+                    int cantidad3 = bob.nextInt();
                     double barritasdegranola3 = 5.00;
-                    igv = 0.50;
                     subtotal = barritasdegranola3 * cantidad3;
-                    total_a_pagar = subtotal + igv;
-                    System.out.println("SUBTOTAL " + subtotal);
-                    System.out.println("IGV " + igv);
-                    System.out.println("TOTAL A PAGAR ES S/. " + total_a_pagar);
+
+                    primaxsnacks.add("| " + cantidad3 + " | BARRITAS DE GRANOLA - $.5.00");
+                    primaxgastossnacks.add(subtotal);
+
                     break;
                 case 4:
                     System.out.println("Ingrese la cantidad de chocolates a comprar:");
-                    int cantidad4 = gabriel.nextInt();
+                    int cantidad4 = bob.nextInt();
                     double chocolates = 2.00;
-                    igv = 0.50;
                     subtotal = chocolates * cantidad4;
-                    total_a_pagar = subtotal + igv;
-                    System.out.println("SUBTOTAL " + subtotal);
-                    System.out.println("IGV " + igv);
-                    System.out.println("TOTAL A PAGAR ES S/. " + total_a_pagar);
+
+                    primaxsnacks.add("| " + cantidad4 + " | CHOCOLATE BOM BOM - $.2.00");
+                    primaxgastossnacks.add(subtotal);
+
                     break;
                 case 5:
                     int tipo;
@@ -433,95 +961,87 @@
                         System.out.println("8)--->papaya: S/.8.00 el kilo");
                         System.out.println("0)--->Regresar");
                         System.out.println("Ingrese los siguientes tipos de frutas:");
-                        tipo = gabriel.nextInt();
+                        tipo = bob.nextInt();
                         switch (tipo) {
                             case 1:
                                 System.out.println("Ingrese cuantos kilos desea  comprar:");
-                                int cantKl1 = gabriel.nextInt();
+                                int cantKl1 = bob.nextInt();
                                 double manzana = 8.00;
-                                igv = 0.50;
                                 subtotal = manzana * cantKl1;
-                                total_a_pagar = subtotal + igv;
-                                System.out.println("SUBTOTAL " + subtotal);
-                                System.out.println("IGV " + igv);
-                                System.out.println("TOTAL A PAGAR ES S/. " + total_a_pagar);
+
+                                primaxsnacks.add("| " + cantKl1 + " | manzana: S/.8.00 el kilo");
+                                primaxgastossnacks.add(subtotal);
+
                                 break;
                             case 2:
                                 System.out.println("Ingrese cuantos kilos desea  comprar:");
-                                int cantKl2 = gabriel.nextInt();
+                                int cantKl2 = bob.nextInt();
                                 double pera = 7.00;
-                                igv = 0.50;
                                 subtotal = pera * cantKl2;
-                                total_a_pagar = subtotal + igv;
-                                System.out.println("SUBTOTAL " + subtotal);
-                                System.out.println("IGV " + igv);
-                                System.out.println("TOTAL A PAGAR ES S/. " + total_a_pagar);
+
+                                primaxsnacks.add("| " + cantKl2 + " | pera: S/.7.00 el kilo");
+                                primaxgastossnacks.add(subtotal);
+
                                 break;
                             case 3:
                                 System.out.println("Ingrese cuantos kilos desea  comprar:");
-                                int cantKl3 = gabriel.nextInt();
+                                int cantKl3 = bob.nextInt();
                                 double platano = 6.00;
-                                igv = 0.50;
                                 subtotal = platano * cantKl3;
-                                total_a_pagar = subtotal + igv;
-                                System.out.println("SUBTOTAL " + subtotal);
-                                System.out.println("IGV " + igv);
-                                System.out.println("TOTAL A PAGAR ES S/. " + total_a_pagar);
+
+                                primaxsnacks.add("| " + cantKl3 + " | platano: S/.6.00 el kilo");
+                                primaxgastossnacks.add(subtotal);
+
                                 break;
                             case 4:
                                 System.out.println("Ingrese cuantos kilos desea comprar:");
-                                int cantKl4 = gabriel.nextInt();
+                                int cantKl4 = bob.nextInt();
                                 double uva = 7.00;
-                                igv = 0.50;
                                 subtotal = uva * cantKl4;
-                                total_a_pagar = subtotal + igv;
-                                System.out.println("SUBTOTAL " + subtotal);
-                                System.out.println("IGV " + igv);
-                                System.out.println("TOTAL A PAGAR ES S/. " + total_a_pagar);
+
+                                primaxsnacks.add("| " + cantKl4 + " | uva: S/. 7.00 el kilo");
+                                primaxgastossnacks.add(subtotal);
+
                                 break;
                             case 5:
                                 System.out.println("Ingrese cuantos kilos desea comprar:");
-                                int cantKl5 = gabriel.nextInt();
+                                int cantKl5 = bob.nextInt();
                                 double sandia = 5.00;
-                                igv = 0.50;
                                 subtotal = sandia * cantKl5;
-                                total_a_pagar = subtotal + igv;
-                                System.out.println("SUBTOTAL " + subtotal);
-                                System.out.println("IGV " + igv);
-                                System.out.println("TOTAL A PAGAR ES S/. " + total_a_pagar);
+
+                                primaxsnacks.add("| " + cantKl5 + " | sandia: S/. 5.00 el kilo");
+                                primaxgastossnacks.add(subtotal);
+
                                 break;
                             case 6:
                                 System.out.println("Ingrese cuantos kilos desea comprar:");
-                                int cantKl6 = gabriel.nextInt();
+                                int cantKl6 = bob.nextInt();
                                 double melon = 5.00;
-                                igv = 0.50;
                                 subtotal = melon * cantKl6;
-                                total_a_pagar = subtotal + igv;
-                                System.out.println("SUBTOTAL " + subtotal);
-                                System.out.println("IGV " + igv);
-                                System.out.println("TOTAL A PAGAR ES S/. " + total_a_pagar);
+
+                                primaxsnacks.add("| " + cantKl6 + " | melon: S/. 5.00 el kilo");
+                                primaxgastossnacks.add(subtotal);
+
                                 break;
                             case 7:
                                 System.out.println("Ingrese cuantos kilos desea  Comprar: ");
-                                int cantKl7 = gabriel.nextInt();
+                                int cantKl7 = bob.nextInt();
                                 double mango = 7.00;
-                                igv = 0.50;
                                 subtotal = mango * cantKl7;
-                                total_a_pagar = subtotal + igv;
-                                System.out.println("SUBTOTAL " + subtotal);
-                                System.out.println("IGV " + igv);
-                                System.out.println("TOTAL A PAGAR ES S/. " + total_a_pagar);
+
+                                primaxsnacks.add("| " + cantKl7 + " | mango: S/.7.00 el kilo");
+                                primaxgastossnacks.add(subtotal);
+
                                 break;
                             case 8:
                                 System.out.println("Ingrese cuantos kilos desea  comprar: ");
-                                int cantKl8 = gabriel.nextInt();
+                                int cantKl8 = bob.nextInt();
                                 double papaya = 8.00;
-                                igv = 0.50;
                                 subtotal = papaya * cantKl8;
-                                total_a_pagar = subtotal + igv;
-                                System.out.println("SUBTOTAL " + subtotal);
-                                System.out.println("IGV " + igv);
-                                System.out.println("TOTAL A PAGAR ES S/. " + total_a_pagar);
+
+                                primaxsnacks.add("| " + cantKl8 + "| papaya: S/.8.00 el kilo");
+                                primaxgastossnacks.add(subtotal);
+
                                 break;
                             case 0:
                                 System.out.println("Estas regresando....");
@@ -534,14 +1054,15 @@
                     break;
                 case 6:
                     System.out.println("Ingrese la cantidad de empanadas a comprar:");
-                    int cantidad6 = gabriel.nextInt();
+                    int cantidad6 = bob.nextInt();
                     double empanadas = 10.00;
                     double total6 = cantidad6 * empanadas;
-                    System.out.println("El total a pagar es: " + total6);
+                    primaxsnacks.add("| " + cantidad6 + " | EMPANADAS DE CARNE - $.10.00");
+                    primaxgastossnacks.add(total6);
                     break;
                 case 0:
                     System.out.println("Gracias por usar nuestro servicio :D");
-                    MenuGeneral();
+                    MENUPRINCIPAL();
                     break;
                 default:
                     System.out.println("Cantidad no valida...");
@@ -550,100 +1071,38 @@
         }
         while (vladimir != 0);
     }
-
-
-    public void MenuGeneral() {
-        int vladimir;
-        do {
-            System.out.println("\n--- Grifo Primax ---");
-            System.out.println("1. Combustible");
-            System.out.println("2. Taller Automotriz");
-            System.out.println("3. Lavado de Autos");
-            System.out.println("4. Snack");
-            System.out.println("0. Salir");
-            System.out.print("Selecciona una opción: ");
-            vladimir = gabriel.nextInt();
-            switch (vladimir) {
-                case 1:
-                    omarVentaCombustible();
-                    break;
-                case 2:
-                    gabrielTallerAutomotriz();
-                    break;
-                case 3:
-                    luzLavadoDeAutos();
-                    break;
-                case 4:
-                    vladimirSnack();
-                    break;
-                case 0:
-                    System.out.println("Saliendo del sistema...");
-                    Login();
-                    break;
-                default:
-                    System.out.println("Opción no válida.");
-                    break;
+    public void BOLETADEVENTA() {
+        for (int i = 0; i < primaxcombustible.size(); i++) {
+            primaxgastoscombustible.add(0.0);
+        }
+        try (FileWriter pri = new FileWriter("D:/BOLETADEVENTA.txt")) {
+            pri.write("BOLETA DE VENTA\n");
+            pri.write("MULTISERVICIOS PRIMAX");
+            pri.write("| N°| DESCRIPCION DE PRODUCTOS  \n");
+            pri.write("CANTIDAD\tDESCRIPCIÓN\t\tTOTAL\n");
+            for (int i = 0; i < primaxcombustible.size(); i++) {
+                double cantidad = carrito_combustible.get(i);
+                if (cantidad > 0) {
+                    totalgeneral = cantidad * precio[i];
+                   pri.write(String.format("%.2f\t\t%s\t\t%.2f\n",cantidad, primaxcombustible.get(i), totalgeneral));
+                }
             }
-        } while (vladimir != 0);
-    }
+            igv = 0.18 * Sumatorias();
+            totalpagar = Sumatorias() - igv;
+            pri.write("| SUB TOTAL     : " + String.format("%.2f", Sumatorias()) + "\n");
+            pri.write("| IGV           : " + String.format("%.2f", igv) + "\n");
+            pri.write("| TOTAL A PAGAR : " + String.format("%.2f", totalpagar) + "\n");
 
-    public void Login() {
-        int oportunidades = 0;
-        int omar;
-        do {
-            System.out.println("Benvenido al Logeo General :3");
-            System.out.println("1) Crear Cuenta");
-            System.out.println("2) Inicia Secion");
-            System.out.println("0) Salir");
-            omar = gabriel.nextInt();
-            gabriel.nextLine();
-            switch (omar) {
-                case 1:
-                    System.out.println("Bienvenido a Grifo Primax");
-                    System.out.println("----Crear cuenta----");
-                    System.out.println("Ingrese su Nombre");
-                    nombreUsuario = gabriel.nextLine();
-                    System.out.println("Ingrese su correo");
-                    correo = gabriel.nextLine();
-                    System.out.println("Ingrese su contraseña");
-                    contrasena = gabriel.nextLine();
-                    System.out.println("Sr." + nombreUsuario + " Su cuenta ha sido creada satisfactoriamente !!");
-                    break;
-                case 2:
-                    boolean luz1 = true;
-                    while (luz1) {
-                        System.out.println("|----- Iniciar sesion -----|");
-                        System.out.println("Ingrese su correo");
-                        String correoIngresado = gabriel.nextLine();
-                        System.out.println("Ingrese su contraseña");
-                        String contrasenaIngresada = gabriel.nextLine();
-                        if (correo.equals(correoIngresado) && contrasena.equals(contrasenaIngresada)) {
-                            System.out.println("La cuenta "+correoIngresado+" Se a Iniciado Sesion Exitosamente");
-                            MenuGeneral();
-                        } else {
-                            System.out.println("Datos Incorrectos");
-                            oportunidades++;
-                            System.out.println("Se realizo " + oportunidades + " Intentos >:C");
-                        }
-
-                        if (oportunidades == 4) {
-                            System.out.println("Mejor crea una cuenta nueva XDDD");
-                            luz1 = false;
-                        }
-                    }
-                    break;
-                case 0:
-                    System.out.println("Saliendo del sistema :'c");
-                    break;
-                default:
-                    System.out.println("Opción no válida >:C");
-                    break;
-            }
-        } while (omar != 0);
+            System.err.println("lista de servicios dados exportada correctamente a D:/BOLETADEVENTA.txt");
+        } catch (IOException e) {
+            System.err.println("error al exportar la lista");
+        }
+        borrarloquetenganestosAllLists();
     }
 
     public static void main(String[] args) {
-        Grifo luz = new Grifo();
-        luz.Login();
+        MULTISERVICIOSPRIMAX BOOM = new MULTISERVICIOSPRIMAX();
+        BOOM.LOGIN();
+
     }
 }
